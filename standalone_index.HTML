@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background 1.5s ease;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #2d5be3;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .city-input {
+            display: flex;
+            margin: 15px 0;
+        }
+        
+        input {
+            padding: 12px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px 0 0 10px;
+            width: 70%;
+            outline: none;
+            flex-grow: 1;
+        }
+        
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            background: #ff8c00;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #ff6a00;
+        }
+        
+        .weather-card {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .city-name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .date {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .weather-icon {
+            font-size: 70px;
+            margin: 15px 0;
+        }
+        
+        .temperature {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #222;
+        }
+        
+        .conditions {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #444;
+        }
+        
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .detail-card {
+            background: #f1f5fe;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .detail-card i {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: #2d5be3;
+        }
+        
+        .detail-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .sunny { color: #ff8c00; }
+        .cloudy { color: #6c757d; }
+        .rainy { color: #007bff; }
+        .stormy { color: #6f42c1; }
+        .snowy { color: #17a2b8; }
+        
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-cloud-sun"></i> Custom City Weather</h1>
+            <div class="city-input">
+                <input type="text" id="city-input" placeholder="Enter any city name" value="Where-Are-Yurk">
+                <button id="get-weather-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        
+        <div class="weather-card">
+            <div class="city-name" id="city-name">Where-Are-Yurk</div>
+            <div class="date" id="date"></div>
+            
+            <div class="weather-icon">
+                <i class="fas fa-sun sunny" id="weather-icon"></i>
+            </div>
+            
+            <div class="temperature" id="temperature">--°C</div>
+            <div class="conditions" id="conditions">Loading conditions...</div>
+            
+            <div class="details">
+                <div class="detail-card">
+                    <i class="fas fa-tint"></i>
+                    <div>Humidity</div>
+                    <div class="detail-value" id="humidity">--%</div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-wind"></i>
+                    <div>Wind Speed</div>
+                    <div class="detail-value" id="wind">-- km/h</div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-cloud-rain"></i>
+                    <div>Precipitation</div>
+                    <div class="detail-value" id="precipitation">--%</div>
+                </div>
+                <div class="detail-card">
+                    <i class="fas fa-temperature-low"></i>
+                    <div>Feels Like</div>
+                    <div class="detail-value" id="feels-like">--°C</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Weather data randomly generated for demonstration purposes</p>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const cityInput = document.getElementById('city-input');
+        const getWeatherBtn = document.getElementById('get-weather-btn');
+        const cityNameElement = document.getElementById('city-name');
+        const dateElement = document.getElementById('date');
+        const weatherIconElement = document.getElementById('weather-icon');
+        const temperatureElement = document.getElementById('temperature');
+        const conditionsElement = document.getElementById('conditions');
+        const humidityElement = document.getElementById('humidity');
+        const windElement = document.getElementById('wind');
+        const precipitationElement = document.getElementById('precipitation');
+        const feelsLikeElement = document.getElementById('feels-like');
+        const bodyElement = document.body;
+
+        // Weather conditions and icons
+        const weatherConditions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Rainy', 'Stormy', 'Snowy', 'Foggy', 'Windy'];
+        const weatherIcons = ['fa-sun', 'fa-cloud-sun', 'fa-cloud', 'fa-cloud-rain', 'fa-poo-storm', 'fa-snowflake', 'fa-smog', 'fa-wind'];
+        const weatherClasses = ['sunny', 'sunny', 'cloudy', 'rainy', 'stormy', 'snowy', 'cloudy', 'cloudy'];
+        
+        // Weather background gradients
+        const weatherBackgrounds = [
+            'linear-gradient(135deg, #ff9d00, #ffcc00, #ff9d00)',
+            'linear-gradient(135deg, #6dd5ed, #2193b0, #6dd5ed)',
+            'linear-gradient(135deg, #636fa4, #636fa4, #a5b1c2)',
+            'linear-gradient(135deg, #000046, #1cb5e0, #000046)',
+            'linear-gradient(135deg, #141e30, #243b55, #141e30)',
+            'linear-gradient(135deg, #8e9eab, #eef2f3, #8e9eab)',
+            'linear-gradient(135deg, #c9d6ff, #e2e2e2, #c9d6ff)',
+            'linear-gradient(135deg, #74ebd5, #acb6e5, #74ebd5)'
+        ];
+
+        // Update weather display
+        function updateWeather(city) {
+            // Generate random weather data
+            const randIndex = Math.floor(Math.random() * weatherConditions.length);
+            const temperature = Math.floor(Math.random() * 56) - 15;
+            const humidity = Math.floor(Math.random() * 86) + 10;
+            const wind = Math.floor(Math.random() * 51);
+            const precipitation = Math.floor(Math.random() * 101);
+            
+            // Calculate feels like temperature
+            let feelsLike = temperature;
+            if (humidity > 70) feelsLike += 2;
+            if (wind > 15) feelsLike -= 2;
+            if (randIndex === 0) feelsLike += 2;
+            if (randIndex === 5) feelsLike -= 3;
+            
+            // Update DOM elements
+            cityNameElement.textContent = city;
+            temperatureElement.textContent = `${temperature}°C`;
+            conditionsElement.textContent = weatherConditions[randIndex];
+            humidityElement.textContent = `${humidity}%`;
+            windElement.textContent = `${wind} km/h`;
+            precipitationElement.textContent = `${precipitation}%`;
+            feelsLikeElement.textContent = `${feelsLike}°C`;
+            
+            // Update weather icon
+            weatherIconElement.className = `fas ${weatherIcons[randIndex]} ${weatherClasses[randIndex]}`;
+            
+            // Update background
+            bodyElement.style.background = weatherBackgrounds[randIndex];
+            
+            // Update date
+            const now = new Date();
+            dateElement.textContent = now.toLocaleDateString('en-US', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+        }
+
+        // Event listeners
+        getWeatherBtn.addEventListener('click', () => {
+            updateWeather(cityInput.value.trim() || 'Where-Are-Yurk');
+        });
+
+        cityInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') updateWeather(cityInput.value.trim() || 'Where-Are-Yurk');
+        });
+
+        // Initialize
+        updateWeather('Where-Are-Yurk');
+    </script>
+</body>
+</html>

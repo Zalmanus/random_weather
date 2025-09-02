@@ -1,0 +1,7 @@
+# Ignore all files starting with underscore
+_*
+
+# Other common ignores
+node_modules/
+.DS_Store
+*.log
